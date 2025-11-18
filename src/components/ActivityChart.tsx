@@ -72,7 +72,7 @@ const ActivityChart = () => {
               }
             `}</style>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
           <XAxis 
             dataKey="date" 
             tick={{ fontSize: 12, fill: '#6B7280' }}
@@ -83,7 +83,7 @@ const ActivityChart = () => {
             domain={[0, 4]}
             ticks={[0, 1, 2, 3, 4]}
             tick={{ fontSize: 12, fill: '#6B7280' }}
-            axisLine={{ stroke: '#e5e7eb' }}
+            axisLine={{ stroke: '#fff' }}
             tickLine={{ stroke: '#e5e7eb' }}
           />
           <Tooltip 

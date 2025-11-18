@@ -1,5 +1,8 @@
 import { ReactNode } from 'react'
 
+
+
+
 interface ContentLayoutProps {
   title: string
   children: ReactNode
@@ -11,7 +14,7 @@ const ContentLayout = ({ title, children, actions }: ContentLayoutProps) => {
     <main className="flex-1 overflow-auto rounded-xl m-2 bg-white shadow-sm border-[0.5px] border-gray-200">
       <div className="p-3 sm:p-4 lg:p-6">
         <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-4">
             <h1 className="text-xl font-semibold text-gray-900">{title}</h1>
           </div>
           {actions && <div>{actions}</div>}
