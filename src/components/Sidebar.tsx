@@ -1,5 +1,6 @@
 'use client'
 
+import { usePathname } from 'next/navigation'
 import { 
   Compass, 
   Inbox, 
@@ -16,6 +17,7 @@ import {
 } from 'lucide-react'
 
 const Sidebar = () => {
+  const pathname = usePathname()
   return (
     <div className="flex flex-col w-[213px]">
       {/* Header */}
@@ -67,51 +69,51 @@ const Sidebar = () => {
 
               {/* Explore */}
               <a className="block" href="/explore">
-                <button className="inline-flex items-center whitespace-nowrap rounded-xl ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground w-full justify-start gap-2 px-2 py-1.5 h-auto font-normal text-sm">
-                  <span className="w-4 h-4 flex items-center justify-center text-gray-600">
+                <button className={`inline-flex items-center whitespace-nowrap rounded-xl ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground w-full justify-start gap-2 px-2 py-1.5 h-auto text-sm ${pathname === '/explore' ? 'bg-gray-100 font-medium' : 'font-normal'}`}>
+                  <span className={`w-4 h-4 flex items-center justify-center ${pathname === '/explore' ? 'text-gray-900' : 'text-gray-600'}`}>
                     <Compass className="w-4 h-4" />
                   </span>
-                  <span className="text-gray-700">Explore</span>
+                  <span className={pathname === '/explore' ? 'text-gray-900' : 'text-gray-700'}>Explore</span>
                 </button>
               </a>
 
               {/* Inbox */}
               <a className="block" href="/inbox">
-                <button className="inline-flex items-center whitespace-nowrap rounded-xl ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground w-full justify-start gap-2 px-2 py-1.5 h-auto font-normal text-sm">
-                  <span className="w-4 h-4 flex items-center justify-center text-gray-600">
+                <button className={`inline-flex items-center whitespace-nowrap rounded-xl ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground w-full justify-start gap-2 px-2 py-1.5 h-auto text-sm ${pathname === '/inbox' ? 'bg-gray-100 font-medium' : 'font-normal'}`}>
+                  <span className={`w-4 h-4 flex items-center justify-center ${pathname === '/inbox' ? 'text-gray-900' : 'text-gray-600'}`}>
                     <Inbox className="w-4 h-4" />
                   </span>
-                  <span className="text-gray-700">Inbox</span>
+                  <span className={pathname === '/inbox' ? 'text-gray-900' : 'text-gray-700'}>Inbox</span>
                 </button>
               </a>
 
               {/* Workflows */}
               <a className="block" href="/workflows">
-                <button className="inline-flex items-center whitespace-nowrap rounded-xl ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground w-full justify-start gap-2 px-2 py-1.5 h-auto font-normal text-sm">
-                  <span className="w-4 h-4 flex items-center justify-center text-gray-600">
+                <button className={`inline-flex items-center whitespace-nowrap rounded-xl ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground w-full justify-start gap-2 px-2 py-1.5 h-auto text-sm ${pathname === '/workflows' ? 'bg-gray-100 font-medium' : 'font-normal'}`}>
+                  <span className={`w-4 h-4 flex items-center justify-center ${pathname === '/workflows' ? 'text-gray-900' : 'text-gray-600'}`}>
                     <Workflow className="w-4 h-4" />
                   </span>
-                  <span className="text-gray-700">Workflows</span>
+                  <span className={pathname === '/workflows' ? 'text-gray-900' : 'text-gray-700'}>Workflows</span>
                 </button>
               </a>
 
-              {/* Metrics - Active */}
+              {/* Metrics */}
               <a className="block" href="/metrics">
-                <button className="inline-flex items-center whitespace-nowrap rounded-xl ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground w-full justify-start gap-2 px-2 py-1.5 h-auto text-sm bg-gray-100 font-medium">
-                  <span className="w-4 h-4 flex items-center justify-center text-gray-900">
+                <button className={`inline-flex items-center whitespace-nowrap rounded-xl ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground w-full justify-start gap-2 px-2 py-1.5 h-auto text-sm ${pathname === '/metrics' || pathname === '/' ? 'bg-gray-100 font-medium' : 'font-normal'}`}>
+                  <span className={`w-4 h-4 flex items-center justify-center ${pathname === '/metrics' || pathname === '/' ? 'text-gray-900' : 'text-gray-600'}`}>
                     <ChartLine className="w-4 h-4" />
                   </span>
-                  <span className="text-gray-900">Metrics</span>
+                  <span className={pathname === '/metrics' || pathname === '/' ? 'text-gray-900' : 'text-gray-700'}>Metrics</span>
                 </button>
               </a>
 
               {/* Integrations */}
               <a className="block" href="/integrations">
-                <button className="inline-flex items-center whitespace-nowrap rounded-xl ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground w-full justify-start gap-2 px-2 py-1.5 h-auto font-normal text-sm">
-                  <span className="w-4 h-4 flex items-center justify-center text-gray-600">
+                <button className={`inline-flex items-center whitespace-nowrap rounded-xl ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground w-full justify-start gap-2 px-2 py-1.5 h-auto text-sm ${pathname === '/integrations' ? 'bg-gray-100 font-medium' : 'font-normal'}`}>
+                  <span className={`w-4 h-4 flex items-center justify-center ${pathname === '/integrations' ? 'text-gray-900' : 'text-gray-600'}`}>
                     <Plug className="w-4 h-4" />
                   </span>
-                  <span className="text-gray-700">Integrations</span>
+                  <span className={pathname === '/integrations' ? 'text-gray-900' : 'text-gray-700'}>Integrations</span>
                 </button>
               </a>
             </nav>

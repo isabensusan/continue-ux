@@ -1,5 +1,5 @@
 import MetricsContent from '@/components/MetricsContent'
 
-export default function Home() {
+export default function MetricsPage() {
   return <MetricsContent />
 }

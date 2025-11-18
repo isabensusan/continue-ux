@@ -1,0 +1,321 @@
+{
+  "workflows": [
+    {
+      "id": "sentry-team-router",
+      "integration": "sentry",
+      "name": "Team Router Agent",
+      "description": "Intelligently assigns errors to appropriate teams based on stack trace",
+      "triggerType": "webhook",
+      "triggerDetails": "Sentry webhook (new error event)",
+      "category": "Immediate Response",
+      "outcome": "PR or issue",
+      "icon": "🔔"
+    },
+    {
+      "id": "sentry-error-regression-guard",
+      "integration": "sentry",
+      "name": "Error Regression Guard",
+      "description": "Runs on every deployment to compare new errors against historical baselines. Blocks or warns on merges that reintroduce previously fixed issues. Creates 'regression detected' issues with links to original fixes.",
+      "triggerType": "webhook",
+      "triggerDetails": "GitHub webhook (deployment/merge to main)",
+      "category": "Immediate Response",
+      "outcome": "Issue with regression report and links to prior fixes",
+      "icon": "🔔"
+    },
+    {
+      "id": "sentry-error-trend-detective",
+      "integration": "sentry",
+      "name": "Error Trend Detective",
+      "description": "Monitors error frequency and patterns over time (hourly, daily, weekly). Identifies emerging issues, seasonal spikes, or degrading stability. Creates proactive alerts with trend visualizations and predicted impact.",
+      "triggerType": "cron",
+      "triggerDetails": "Every 6 hours or daily",
+      "category": "Scheduled Analysis",
+      "outcome": "Issue with trend report, risk assessment, and recommended next steps",
+      "icon": "⏰"
+    },
+    {
+      "id": "sentry-release-impact-analyzer",
+      "integration": "sentry",
+      "name": "Release Impact Analyzer",
+      "description": "Automatically analyzes errors introduced in new deployments by comparing error patterns before and after releases. Creates annotated GitHub issues with regression analysis, affected user counts, and rollback recommendations.",
+      "triggerType": "cron",
+      "triggerDetails": "Runs 1 hour after deployment window",
+      "category": "Scheduled Analysis",
+      "outcome": "Issue with regression analysis, affected users, and rollback recommendation",
+      "icon": "⏰"
+    },
+    {
+      "id": "sentry-flaky-error-investigator",
+      "integration": "sentry",
+      "name": "Flaky Error Investigator",
+      "description": "Identifies intermittent errors that are hard to reproduce. Analyzes environmental factors (time of day, user agent, geographic location) and creates issues with reproduction strategies and environment setup instructions.",
+      "triggerType": "cron",
+      "triggerDetails": "Weekly analysis",
+      "category": "Scheduled Analysis",
+      "outcome": "Issue with reproduction steps, env matrix, and next best fix attempt",
+      "icon": "⏰"
+    },
+    {
+      "id": "sentry-error-documentation-generator",
+      "integration": "sentry",
+      "name": "Error Documentation Generator",
+      "description": "Creates internal knowledge base articles from frequently occurring errors. Documents common causes, solutions, and prevention strategies. Links from GitHub issues to docs for faster future resolution.",
+      "triggerType": "cron",
+      "triggerDetails": "Weekly",
+      "category": "Scheduled Analysis",
+      "outcome": "Internal doc page link and cross-references added to related GitHub issues",
+      "icon": "⏰"
+    },
+    {
+      "id": "sentry-dependency-error-tracker",
+      "integration": "sentry",
+      "name": "Dependency Error Tracker",
+      "description": "Detects errors originating from third-party dependencies or APIs. Creates issues that include dependency version info, checks for known issues in upstream repos, and suggests version upgrades or workarounds.",
+      "triggerType": "hybrid",
+      "triggerDetails": {
+        "webhook": "Sentry error from external API/package (immediate)",
+        "cron": "Daily scan of all dependency-related errors"
+      },
+      "category": "Triage",
+      "outcome": "Issue with upstream links, version recommendation, and mitigation plan",
+      "requiresApproval": true,
+      "icon": "🔄"
+    },
+    {
+      "id": "sentry-test-coverage-suggester",
+      "integration": "sentry",
+      "name": "Test Coverage Suggester",
+      "description": "For resolved errors, analyzes if adequate test coverage exists to prevent recurrence. Creates follow-up PRs with unit/integration tests based on the error's root cause and affected code paths.",
+      "triggerType": "hybrid",
+      "triggerDetails": {
+        "webhook": "PR merged that fixes a Sentry issue",
+        "cron": "Weekly analysis of resolved errors without tests"
+      },
+      "category": "Triage",
+      "outcome": "PR adding tests or issue with test plan when code changes are non-trivial",
+      "requiresApproval": true,
+      "icon": "🔄"
+    },
+    {
+      "id": "snyk-dependency-freshness-validator",
+      "integration": "snyk",
+      "name": "Dependency Freshness Validator",
+      "description": "Automatically runs Snyk Open Source when dependencies are added or updated. Validates the lowest-risk upgrade path, checks for known vulnerabilities in new packages, and suggests safer alternatives before allowing the change.",
+      "triggerType": "webhook",
+      "triggerDetails": "GitHub webhook (snyk open prs marked [Snyk] in the title)",
+      "category": "Immediate Response",
+      "outcome": "Comment on PR with risk assessment and suggested upgrade path",
+      "icon": "🔔"
+    },
+    {
+      "id": "snyk-iac-compliance-checker",
+      "integration": "snyk",
+      "name": "IaC Compliance Checker",
+      "description": "Scans infrastructure-as-code changes for compliance violations and security misconfigurations before applying. Reports high/critical misconfigs with exact files/lines and provides compliant code changes.",
+      "triggerType": "webhook",
+      "triggerDetails": "GitHub webhook (Terraform/CloudFormation/K8s files changed)",
+      "category": "Immediate Response",
+      "outcome": "PR with compliant changes or comment with exact fixes",
+      "icon": "🔔"
+    },
+    {
+      "id": "snyk-daily-security-sweep",
+      "integration": "snyk",
+      "name": "Daily Security Sweep",
+      "description": "Comprehensive security scan covering code vulnerabilities, dependency issues, IaC misconfigurations, and container security. Generates markdown security report summarizing total vulnerabilities by severity and recommended next steps.",
+      "triggerType": "cron",
+      "triggerDetails": "Daily at 8 AM",
+      "category": "Scheduled Analysis",
+      "outcome": "Issue with consolidated security report and owners for follow-ups",
+      "icon": "⏰"
+    },
+    {
+      "id": "snyk-dependency-freshness-monitor",
+      "integration": "snyk",
+      "name": "Dependency Freshness Monitor",
+      "description": "Scans all project dependencies for outdated packages with known vulnerabilities. Creates prioritized upgrade plan balancing security risk against breaking change potential. Generates PRs for low-risk updates.",
+      "triggerType": "cron",
+      "triggerDetails": "Weekly",
+      "category": "Scheduled Analysis",
+      "outcome": "Issue",
+      "icon": "⏰"
+    },
+    {
+      "id": "snyk-security-debt-tracker",
+      "integration": "snyk",
+      "name": "Security Debt Tracker",
+      "description": "Analyzes accumulated security vulnerabilities over time. Identifies aging issues that haven't been addressed, calculates security debt metrics, and creates prioritized remediation roadmap issues with effort estimates.",
+      "triggerType": "cron",
+      "triggerDetails": "Weekly",
+      "category": "Scheduled Analysis",
+      "outcome": "Issue that links all issues",
+      "icon": "⏰"
+    },
+    {
+      "id": "snyk-container-base-image-auditor",
+      "integration": "snyk",
+      "name": "Container Base Image Auditor",
+      "description": "Audits all container base images for newer, more secure versions. Compares vulnerability counts across different base image tags, recommends safer alternatives, and creates PRs to update Dockerfiles with security improvements.",
+      "triggerType": "cron",
+      "triggerDetails": "Weekly",
+      "category": "Scheduled Analysis",
+      "outcome": "Issue",
+      "icon": "⏰"
+    },
+    {
+      "id": "snyk-license-compliance-reporter",
+      "integration": "snyk",
+      "name": "License Compliance Reporter",
+      "description": "Scans project dependencies for license compliance issues. Generates report of all licenses in use, flags problematic licenses, identifies GPL contamination risks, and suggests license-safe alternatives for flagged packages.",
+      "triggerType": "cron",
+      "triggerDetails": "Monthly",
+      "category": "Scheduled Analysis",
+      "outcome": "Issue",
+      "icon": "⏰"
+    },
+    {
+      "id": "snyk-vulnerability-remediation-tracker",
+      "integration": "snyk",
+      "name": "Vulnerability Remediation Tracker",
+      "description": "Tracks fixable security vulnerabilities and automatically creates PRs with minimal-risk fixes. Validates fixes by re-running Snyk scan, generates before/after security reports, and includes Snyk Learn lessons for education.",
+      "triggerType": "hybrid",
+      "triggerDetails": {
+        "webhook": "Snyk discovers fixable vulnerability",
+        "cron": "Weekly scan for all fixable issues"
+      },
+      "category": "Triage",
+      "outcome": "Queued Task to PR",
+      "requiresApproval": true,
+      "action": "click solve",
+      "metrics": "Tracking reports and resolutions",
+      "icon": "🔄"
+    },
+    {
+      "id": "snyk-security-posture-dashboard",
+      "integration": "snyk",
+      "name": "Security Posture Dashboard",
+      "description": "Maintains real-time security dashboard tracking vulnerability trends, severity distributions, MTTR (mean time to remediation), and security coverage across code/dependencies/IaC/containers. Generates executive summaries.",
+      "triggerType": "hybrid",
+      "triggerDetails": {
+        "webhook": "Any security scan completion",
+        "cron": "Daily rollup report"
+      },
+      "category": "Triage",
+      "outcome": "Queued Task to PR",
+      "requiresApproval": true,
+      "action": "click solve",
+      "metrics": "Vulnerability trends, severity distributions, MTTR, security coverage",
+      "icon": "🔄"
+    },
+    {
+      "id": "github-pr-context-enricher",
+      "integration": "github",
+      "name": "PR Context Enricher",
+      "description": "Automatically analyzes new PRs to add context labels, detect affected areas, estimate review complexity, and suggest appropriate reviewers based on code ownership and expertise.",
+      "triggerType": "webhook",
+      "triggerDetails": "GitHub webhook (PR opened)",
+      "category": "Immediate Response",
+      "outcome": "Comments on PR with impact summary and testing recommendations",
+      "icon": "🔔"
+    },
+    {
+      "id": "github-issue-specification-validator",
+      "integration": "github",
+      "name": "Issue Specification Validator",
+      "description": "Reviews new issues for completeness (reproduction steps, expected vs actual behavior, environment details). Comments with checklist of missing information and suggests issue template improvements.",
+      "triggerType": "webhook",
+      "triggerDetails": "GitHub webhook (new issue opened)",
+      "category": "Immediate Response",
+      "outcome": "Auto-labels as 'needs-more-info' if critical details are missing",
+      "icon": "🔔"
+    },
+    {
+      "id": "github-pr-conflict-resolver",
+      "integration": "github",
+      "name": "PR Conflict Resolver",
+      "description": "Analyzes requested changes and merge conflicts. Creates follow-up commits addressing review feedback, attempts auto-resolution of simple conflicts, and comments with explanation of changes made or why manual intervention is needed.",
+      "triggerType": "webhook",
+      "triggerDetails": "GitHub webhook (changes requested on PR)",
+      "category": "Immediate Response",
+      "outcome": "Creates follow-up commits or comments with explanation",
+      "icon": "🔔"
+    },
+    {
+      "id": "github-hot-path-pr-validator",
+      "integration": "github",
+      "name": "Hot Path PR Validator",
+      "description": "Identifies PRs modifying high-traffic or critical code paths. Runs extra validation checks, requires additional approvers, and creates detailed performance impact analysis. Blocks merge if risk thresholds exceeded.",
+      "triggerType": "webhook",
+      "triggerDetails": "GitHub webhook (PR opened touching critical files)",
+      "category": "Immediate Response",
+      "outcome": "Comment",
+      "icon": "🔔"
+    },
+    {
+      "id": "github-issue-triage-orchestrator",
+      "integration": "github",
+      "name": "Issue Triage Orchestrator",
+      "description": "Reviews all untriaged issues, applies labels based on content analysis (bug/feature/docs), estimates priority/severity, detects duplicates, and assigns to appropriate team.",
+      "triggerType": "cron",
+      "triggerDetails": "Daily at 9 AM",
+      "category": "Scheduled Analysis",
+      "outcome": "Creates weekly triage issue with trending issue types",
+      "icon": "⏰"
+    },
+    {
+      "id": "github-stale-pr-revalidator",
+      "integration": "github",
+      "name": "Stale PR Revalidator",
+      "description": "Identifies PRs inactive for >14 days, re-runs CI checks against current main, comments on conflicts or failures, pings author/reviewers, and suggests closing PRs abandoned for >60 days. Maintains 'stale PR' dashboard.",
+      "triggerType": "cron",
+      "triggerDetails": "Every 3 days",
+      "category": "Scheduled Analysis",
+      "outcome": "Comment and/or Label",
+      "icon": "⏰"
+    },
+    {
+      "id": "github-documentation-drift-detector",
+      "integration": "github",
+      "name": "Documentation Drift Detector",
+      "description": "Compares code changes against documentation to detect outdated docs. Identifies API changes not reflected in docs, finds broken code examples, and creates issues linking to specific doc sections needing updates with suggested changes.",
+      "triggerType": "cron",
+      "triggerDetails": "Weekly",
+      "category": "Scheduled Analysis",
+      "outcome": "Issue",
+      "icon": "⏰"
+    },
+    {
+      "id": "github-first-time-contributor-welcomer",
+      "integration": "github",
+      "name": "First-Time Contributor Welcomer",
+      "description": "Identifies first-time contributors' PRs/issues, adds welcoming comments with contribution guide links, suggests similar issues for future contributions, and notifies maintainers to prioritize review.",
+      "triggerType": "cron",
+      "triggerDetails": "Hourly",
+      "category": "Scheduled Analysis",
+      "outcome": "Comment",
+      "icon": "⏰"
+    },
+    {
+      "id": "github-complex-merge-conflict-resolver",
+      "integration": "github",
+      "name": "Complex Merge Conflict Resolver",
+      "description": "Analyzes complex merge conflicts, proposes resolution strategies with conflict visualization, creates draft commits for review. Requires human approval before pushing conflict resolution.",
+      "triggerType": "hybrid",
+      "triggerDetails": {
+        "webhook": "Changes requested due to conflicts",
+        "cron": "Daily scan for conflict-blocked PRs"
+      },
+      "category": "Triage",
+      "outcome": "Comment and/or Label",
+      "requiresApproval": true,
+      "icon": "🔄"
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "totalWorkflows": 26,
+    "integrations": ["sentry", "snyk", "github"],
+    "triggerTypes": ["webhook", "cron", "hybrid"],
+    "categories": ["Immediate Response", "Scheduled Analysis", "Triage"]
+  }
+}
