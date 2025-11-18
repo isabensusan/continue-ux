@@ -1,8 +1,5 @@
 import { ReactNode } from 'react'
 
-
-
-
 interface ContentLayoutProps {
   title: string
   children: ReactNode

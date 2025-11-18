@@ -94,161 +94,133 @@ const ExploreContent = () => {
     }
   }
 
+  const getTriggerBadgeStyle = (triggerType: string) => {
+    switch (triggerType) {
+      case 'cron':
+        return 'bg-[#ece9fc] text-[#4f3eaa]'
+      case 'webhook':
+        return 'bg-[#fce9e9] text-[#aa3e3e]'
+      case 'hybrid':
+        return 'bg-[#e9f5fc] text-[#3e6eaa]'
+      default:
+        return 'bg-gray-100 text-gray-700'
+    }
+  }
+
+  const getTriggerLabel = (triggerType: string) => {
+    switch (triggerType) {
+      case 'cron':
+        return 'Scheduled'
+      case 'webhook':
+        return 'Immediate'
+      case 'hybrid':
+        return 'Hybrid'
+      default:
+        return triggerType
+    }
+  }
+
   return (
     <div className="flex-1 overflow-y-auto">
       <div className="max-w-7xl mx-auto p-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Explore Workflows</h1>
-          <p className="text-gray-600">
-            Discover and configure automated workflows for your development pipeline
-          </p>
+        <div className="mb-6">
+          <h1 className="text-xl font-semibold text-gray-900 mb-1">Try these Workflows</h1>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
           {/* Search Bar */}
-          <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <div className="relative mb-3">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <input
               type="text"
               placeholder="Search workflows..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
           {/* Filter Dropdowns */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {/* Integration Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Integration
-              </label>
-              <select
-                value={selectedIntegration}
-                onChange={(e) => setSelectedIntegration(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent capitalize"
-              >
-                <option value="all">All Integrations</option>
-                {integrations.map(integration => (
-                  <option key={integration} value={integration} className="capitalize">
-                    {integration}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <select
+              value={selectedIntegration}
+              onChange={(e) => setSelectedIntegration(e.target.value)}
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent capitalize"
+            >
+              <option value="all">All Integrations</option>
+              {integrations.map(integration => (
+                <option key={integration} value={integration} className="capitalize">
+                  {integration}
+                </option>
+              ))}
+            </select>
 
             {/* Category Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Category
-              </label>
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="all">All Categories</option>
-                {categories.map(category => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all">All Categories</option>
+              {categories.map(category => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
 
             {/* Trigger Type Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Trigger Type
-              </label>
-              <select
-                value={selectedTrigger}
-                onChange={(e) => setSelectedTrigger(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent capitalize"
-              >
-                <option value="all">All Triggers</option>
-                {triggerTypes.map(trigger => (
-                  <option key={trigger} value={trigger} className="capitalize">
-                    {trigger}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <select
+              value={selectedTrigger}
+              onChange={(e) => setSelectedTrigger(e.target.value)}
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent capitalize"
+            >
+              <option value="all">All Triggers</option>
+              {triggerTypes.map(trigger => (
+                <option key={trigger} value={trigger} className="capitalize">
+                  {trigger}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Results Count */}
-          <div className="mt-4 text-sm text-gray-600">
-            Showing {filteredWorkflows.length} of {workflows.length} workflows
+          <div className="mt-3 text-xs text-gray-500">
+            {filteredWorkflows.length} {filteredWorkflows.length === 1 ? 'workflow' : 'workflows'}
           </div>
         </div>
 
         {/* Workflow Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {filteredWorkflows.map(workflow => (
             <div
               key={workflow.id}
-              className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 p-6 flex flex-col"
+              className="rounded-lg border bg-card text-card-foreground shadow-sm p-4 border-gray-200 hover:shadow-md transition-shadow cursor-pointer relative"
             >
-              {/* Card Header */}
-              <div className="flex items-start justify-between mb-3">
-                <div className="text-3xl">{workflow.icon}</div>
-                <div className="flex gap-2">
-                  <span className={`px-2 py-1 rounded-md text-xs font-medium border capitalize ${getIntegrationColor(workflow.integration)}`}>
-                    {workflow.integration}
-                  </span>
+              {/* Trigger Badge - Top Right */}
+              <div className="absolute top-4 right-4">
+                <div className={`inline-flex items-center rounded-full border font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent text-[11px] px-2 py-0.5 ${getTriggerBadgeStyle(workflow.triggerType)}`}>
+                  {getTriggerLabel(workflow.triggerType)}
                 </div>
               </div>
 
+              {/* Icon Circle */}
+              <div className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center mb-3">
+                {getTriggerIcon(workflow.triggerType)}
+              </div>
+
               {/* Card Title */}
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="font-medium text-sm mb-2">
                 {workflow.name}
               </h3>
 
               {/* Card Description */}
-              <p className="text-sm text-gray-600 mb-4 flex-grow line-clamp-3">
+              <p className="text-xs text-gray-600 leading-relaxed line-clamp-3">
                 {workflow.description}
               </p>
-
-              {/* Card Metadata */}
-              <div className="space-y-2 mb-4">
-                {/* Category Badge */}
-                <div className="flex items-center gap-2">
-                  <span className={`px-2 py-1 rounded-md text-xs font-medium ${getCategoryColor(workflow.category)}`}>
-                    {workflow.category}
-                  </span>
-                </div>
-
-                {/* Trigger Info */}
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <span className="flex items-center gap-1">
-                    {getTriggerIcon(workflow.triggerType)}
-                    <span className="capitalize">{workflow.triggerType}</span>
-                  </span>
-                </div>
-
-                {/* Outcome */}
-                <div className="text-sm text-gray-600">
-                  <span className="font-medium">Outcome:</span> {workflow.outcome}
-                </div>
-
-                {/* Requires Approval Badge */}
-                {workflow.requiresApproval && (
-                  <div className="flex items-center gap-1 text-xs text-orange-600">
-                    <AlertCircle className="w-3 h-3" />
-                    <span>Requires Approval</span>
-                  </div>
-                )}
-              </div>
-
-              {/* Card Footer */}
-              <div className="pt-4 border-t border-gray-200">
-                <button className="w-full px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors text-sm font-medium">
-                  Configure Workflow
-                </button>
-              </div>
             </div>
           ))}
         </div>
